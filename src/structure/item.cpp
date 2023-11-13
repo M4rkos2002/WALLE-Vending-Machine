@@ -1,8 +1,13 @@
 #include "item.h"
 
+Item::Item(){
+    this->id = "";
+    this->quantity = 0;
+}
+
 Item::Item(const char *name, int qty){
-    id = name;
-    quantity = qty;
+    this->id = name;
+    this->quantity = qty;
 }
 
 void Item::restQty(){

@@ -3,9 +3,9 @@
 #include <string.h>
 
 
-Content::Content(int max_size){
-    items = std::vector<Item>();
-    items.reserve(max_size); 
+Content::Content(int size){
+    this->items = std::vector<Item>(size);
+    this->max_size = size;
 }
 
 void Content::addItem(Item item){
@@ -18,7 +18,16 @@ void Content::addItem(Item item){
 
 void Content::restItemQty(const char *id){
     if(hasItem(id)){
-        getItem(id).restQty();
+        std::vector<Item> newItems = std::vector<Item>(max_size);
+        for(Item item:items){
+            if(item.getName() == id){
+                newItems.push_back(Item(id, item.getQty() - 1));
+            }
+            else{
+                newItems.push_back(item);
+            }
+        }
+        this->items = newItems;
     }
 }
 

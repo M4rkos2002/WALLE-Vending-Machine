@@ -64,6 +64,7 @@ fill(){
     digitalWrite(GREET_LED, LOW);
     delay(500);
     status_ok();
+    status_ok();
 }
 
 void
@@ -74,7 +75,6 @@ status_ok(){
     digitalWrite(SELL_LED, LOW);
     digitalWrite(GREET_LED, LOW);
     delay(700);
-    status_ok();
 }
 
 void

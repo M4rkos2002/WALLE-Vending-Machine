@@ -22,10 +22,8 @@ Content stock(CONTENT_SIZE);
 
 void init_machine(){
     board = get_board_num();
-    stock.addItem(Item("ruler", 5));
-    stock.addItem(Item("pen", 5));
-    stock.addItem(Item("agenda", 1));
-    Serial.println(stock.getItem("pen").getQty());
+    stock.addItem(Item("ruler", 3));
+    stock.addItem(Item("pen", 3));
 }
 
 void dispense(const char *topic, const char *msg){
@@ -33,10 +31,11 @@ void dispense(const char *topic, const char *msg){
         if(is_connected_wifi()){ //if is connected, just publish
             do_publish(topic, msg);
             if(!buffy.isEmpty()){ //checks buffy
-                Serial.print("Publishing buffy's content: ");
+                Serial.println("Publishing buffy's content: ");
                 for (Transaction transaction : buffy.getTransactions()){
                     do_publish(transaction.getTopic(), transaction.getMsg());
                 }
+                buffy = Buffer(BUFFER_SIZE);
             } //ends transaction
         }
         else{ //if there is no wifi
@@ -54,15 +53,14 @@ void dispense(const char *topic, const char *msg){
             
         } //rest items
         stock.restItemQty(topic);
-        Serial.print("Now there are: ");
-        Serial.print(stock.getItem(topic).getQty());
-        Serial.printf("Send into bufffy, wifi connection error");            
+        Serial.println("Now there are: ");
+        Serial.println(stock.getItem(topic).getQty());
         status_ok();
         greet_human();
     }
     else{
-        Serial.print("No more stock for such item: ");
-        Serial.print(msg);
+        Serial.println("No more stock for such item: ");
+        Serial.println(topic);
         status_not_ok();
     }
 }
@@ -83,12 +81,19 @@ void fill_machine(){
             }
             init_mqtt(board);
         }//publish buffys transactions
-        Serial.print("Publishing buffy's content: "); 
+        Serial.println("Publishing buffy's content: "); 
             for (Transaction transaction : buffy.getTransactions()){
                    do_publish(transaction.getTopic(), transaction.getMsg());             
             }
     }//reset machine
-    buffy.clearBuffer();
-    init_machine();
+    buffy = Buffer(BUFFER_SIZE);
+    new_stock();
     fill();
+}
+
+void new_stock(){
+    stock = Content(CONTENT_SIZE);
+    stock.addItem(Item("ruler", 3));
+    stock.addItem(Item("pen", 3));
+    stock.addItem(Item("agenda", 1));
 }

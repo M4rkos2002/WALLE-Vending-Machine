@@ -21,27 +21,24 @@ setup(void)
     init_machine();
     connect_wifi();
     init_mqtt(get_board_num());
-    //TelnetStream.begin();
+    TelnetStream.begin();
 }
 
 void loop(void)
 {
     if(digitalRead(PEN) == HIGH){               //Dispense pen
-        Serial.print("dispenso una lapicera");
-        dispense("pen", "sacá una lapicera");
-        delay(1000);
+        Serial.println("Dispending a pen");
+        dispense("pen", "pen dispensed");
     }
 
     else if(digitalRead(RULER) == HIGH){        //Dispense ruler
-        Serial.print("dispenso una regla");
-        dispense("ruler", "sacá una regla");
-        delay(1000);
+        Serial.println("Dispending a ruler");
+        dispense("ruler", "ruler dispensed");
     }
 
     else if(digitalRead(FILL) == HIGH){
-        Serial.print("Reiniciando contenido");
+        Serial.println("Filling . . . . (°c_ °)");
         fill_machine();
-        delay(1000);
     }
 
 }

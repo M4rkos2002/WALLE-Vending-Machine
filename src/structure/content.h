@@ -4,7 +4,7 @@
 
 class Content{
 public:
-    Content(int max_size);
+    Content(int size);
     void addItem(Item item);
     void restItemQty(const char *id);
     Item getItem(const char *id);

@@ -2,6 +2,7 @@
 
 class Item {
 public:
+    Item(); 
     Item(const char *name, int qty);
     void restQty();
     const char * getName();

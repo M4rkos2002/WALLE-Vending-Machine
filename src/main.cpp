@@ -12,6 +12,7 @@
 #include "wifi/wifi_ruts.h"
 #include "mqtt/mqtt.h"
 
+const double sound_speed = 0.0343;
 
 void
 setup(void)
@@ -39,6 +40,21 @@ void loop(void)
     else if(digitalRead(FILL) == HIGH){
         Serial.println("Filling . . . . (°c_ °)");
         fill_machine();
+    }
+
+    long duration;
+    double distance;
+
+    send_trigger();
+    duration = get_pulse();
+
+    distance = (duration * sound_speed) / 2;
+    Serial.println("Distance: ");
+    Serial1.print(distance);
+
+    if(distance > 1){
+        Serial.println("Strange movement");
+        do_publish("move", "Earthquake in Walle's position");
     }
 
 }

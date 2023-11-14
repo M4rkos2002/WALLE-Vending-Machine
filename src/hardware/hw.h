@@ -19,3 +19,5 @@ void greet_human();
 void status_ok();
 void status_not_ok();
 void fill();
+long get_pulse();           //HC-SRO4
+void send_trigger();

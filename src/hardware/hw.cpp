@@ -35,6 +35,9 @@ init_hw(void)
     pinMode(RULER, INPUT_PULLDOWN);
     pinMode(FILL, INPUT_PULLDOWN);
     pinMode(SELL_LED, OUTPUT);
+
+    pinMode(TRIG_PIN, OUTPUT);          // trigPin as output
+    pinMode(ECHO_PIN, INPUT);           // echoPin as input
     
     pinMode(GREET, OUTPUT); //ISD1820 PLAY-E
     pinMode(GREET_LED, OUTPUT); 
@@ -87,3 +90,18 @@ status_not_ok(){
         counter = counter + 1;
     }
 }
+
+long get_pulse(){
+    long duration = pulseIn(ECHO_PIN, HIGH);
+    Serial.println(duration);
+    return duration;    // in microseconds
+}
+
+void
+send_trigger()
+{
+    digitalWrite(TRIG_PIN, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(TRIG_PIN, LOW);
+}
+

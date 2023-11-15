@@ -31,8 +31,9 @@ void Buffer::addTransaction(const Transaction& transaction) {
 
 void Buffer::publishContent() {
     // Publishes all transactions  
-    for (const Transaction transaction : transactions) {
-        do_publish(transaction.topic, transaction.message);
+    for (int x = 0; x < transactions.size(); x++) {
+        Transaction t = transactions[x];
+        do_publish(t.getTopic(), t.getMsg());
     }
     clearBuffer();
 }

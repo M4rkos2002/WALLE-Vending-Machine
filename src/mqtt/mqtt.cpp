@@ -16,6 +16,7 @@
 #include <PubSubClient.h>
 #include <WiFi.h>
 #include <TelnetStream.h>
+#include "wifi/wifi_ruts.h"
 
 /*
  *  Project includes
@@ -101,23 +102,34 @@ callback(char *topic, byte *payload, unsigned int length)
 
 static void
 client_connect(void)
-{
+{    
     Serial.printf("Connecting to MQTT...\n");
     Serial.printf("server = %s\n",mqttServer);
 
     client.setServer(mqttServer, mqttPort);
     client.setCallback(callback);
-    while (!client.connected())
+    bool connect = false;
+    int count = 0;
+    while (count < 2)
     {
-        if (client.connect(client_id, mqttUser, mqttPassword))
+        if (client.connect(client_id, mqttUser, mqttPassword)){
             Serial.printf( "%s: client %s connected\n", __FUNCTION__, client_id );
+            count = 2;
+            connect = true;
+        }
         else
         {
             Serial.printf("%s: failed with state = %d\n", __FUNCTION__, client.state());
-            delay(2000);
+            count = count + 1;
+            delay(500);
         }
     }
-    Serial.printf("Connected to %s\n", mqttServer);
+    if (connect){
+        Serial.printf("Connected to %s\n", mqttServer);
+    }
+    else{
+        Serial.println("Connection error");
+    }
 }
 
 /*
@@ -130,7 +142,7 @@ subscribe_to( const char *ptopic )
 {
     int status;
  
-    status = client.subscribe(ptopic);
+    status = client.subscribe(ptopic); //1 = :) | 0 = :(
     Serial.printf("%s -> topic: %s [status = %d]\n", __FUNCTION__, ptopic, status);
 }
 
@@ -216,7 +228,25 @@ do_publish(const char *ptopic, const char *msg)
 void
 test_mqtt(void)
 {
-    client.loop();
+    if(is_connected_wifi()){
+        client.loop();
+    }
+    else{
+        int counter = 0;
+        while (counter < 2){
+            connect_wifi();
+            delay(500);
+            if(is_connected_wifi){
+                init_mqtt(board_num);
+                client.loop();
+                counter = 2;
+            }
+            else{
+                counter = counter + 1;
+            }
+        }
+    }
+    
 }
 
 

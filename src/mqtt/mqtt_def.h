@@ -32,22 +32,7 @@ static const char *subs[] =
 #if (SUB_LIST==0)
     "#",
 #elif (SUB_LIST==1)
-    "+/ti",
-    "82/si",
-    "82/sr",
-    "83/sy",
-    "+/sg",
-    "91/tr",
-    "92/ty",
-    "93/tg",
-    "+/clear",
-    "50/#",
-    "+/button",
-#elif (SUB_LIST==2)
-    "+/sr",
-    "00/sy",
-    "+/cy",
-    "+/clear",
+    "getQty",
 #else
     #error "Bad SUB_LIST symbol, out of range"
 #endif
@@ -77,7 +62,7 @@ static const char *subs[] =
     #define BROKER_USER ""
     #define BROKER_PASS ""
 #elif (MQTT==1)
-    #define BROKER_NAME "18.215.151.84"          //  Mosquitto outside local network
+    #define BROKER_NAME "54.197.32.163"          //  Mosquitto outside local network
     #define BROKER_PORT 1883
     #define BROKER_USER "ubuntu"
     #define BROKER_PASS ""

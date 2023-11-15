@@ -9,7 +9,8 @@
 
 #include "transaction.h"
 
-Transaction::Transaction(const char *topic, const char *message) {  //constructor implementation for struct
+Transaction::Transaction(const char *topic, const char *message, int id) {  //constructor implementation for struct
+        this->id=id;
         this->topic = topic;
         this->message = message;
 }

@@ -25,16 +25,23 @@ connect_wifi(void)
         delay(500);
         counter = counter + 1;
     }
-    Serial.println();
 
-    Serial.println("______________");
-    Serial.print( "Conected to ");
-    Serial.println( MY_SSID );
-    Serial.print( "MAC = ");
-    Serial.println( WiFi.macAddress() );
-    Serial.print( "local IP = " );
-    Serial.println( WiFi.localIP() );
-    Serial.println("______________");
+    if (counter > 3){
+        Serial.println("______________");
+        Serial.println("Wifi connection error");
+        Serial.println("______________");
+    }
+    else{
+        Serial.println();
+        Serial.println("______________");
+        Serial.print( "Conected to ");
+        Serial.println( MY_SSID );
+        Serial.print( "MAC = ");
+        Serial.println( WiFi.macAddress() );
+        Serial.print( "local IP = " );
+        Serial.println( WiFi.localIP() );
+        Serial.println("______________");
+    }
 }
 
 void

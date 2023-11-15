@@ -37,24 +37,31 @@ void loop(void)
         dispense("ruler", "ruler dispensed");
     }
 
+    else if(digitalRead(AGENDA) == HIGH){       //Dispense agenda
+        Serial.println("Dispending a agenda");
+        dispense("agenda", "agenda dispensed");
+    }
+
     else if(digitalRead(FILL) == HIGH){
-        Serial.println("Filling . . . . (°c_ °)");
+        Serial.println("Filling . . . . (°c_°)");
         fill_machine();
     }
 
-    long duration;
-    double distance;
+    test_mqtt();
 
-    send_trigger();
-    duration = get_pulse();
+    //long duration;
+    //double distance;
 
-    distance = (duration * sound_speed) / 2;
-    Serial.println("Distance: ");
-    Serial1.print(distance);
+    //send_trigger();
+    //duration = get_pulse();
 
-    if(distance > 1){
-        Serial.println("Strange movement");
-        do_publish("move", "Earthquake in Walle's position");
-    }
+   // distance = (duration * sound_speed) / 2;
+  //  Serial.println("Distance: ");
+  //  Serial1.print(distance);
+
+  //  if(distance > 1){
+    //    Serial.println("Strange movement");
+      //  do_publish("move", "Earthquake in Walle's position");
+    //}
 
 }
